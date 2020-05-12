@@ -8,7 +8,8 @@ class Login extends Component{
     constructor(props){
         super(props)
         this.state={
-            success: false
+            success: false,
+            
         }
        this.handleSubmit= this.handleSubmit.bind(this)
     }
@@ -19,10 +20,12 @@ class Login extends Component{
             const token = out.data.token
             window.localStorage.setItem('token', token)
             this.setState({ success : true })
+           
         })
         e.preventDefault()
     }
     render(){
+       
         if(this.state.success){
             return <Redirect to='/chat'/>
         }

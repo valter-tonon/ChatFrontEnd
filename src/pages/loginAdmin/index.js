@@ -10,7 +10,8 @@ const LoginAdmin = ()=>{
     const dispatch = useDispatch()
 function handleSubmit({name, password}){
     dispatch(signRequest(name, password))
-    setForm({name: '', password: ''})
+    setForm
+    ({name: '', password: ''})
 }
 
         return (

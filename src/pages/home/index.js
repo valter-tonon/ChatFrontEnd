@@ -3,17 +3,27 @@ import io from 'socket.io-client'
 import Room from '../../components/Room'
 import { Route, Link} from 'react-router-dom'
 import SelectRoom from '../../components/SelectRoom'
+import axios from 'axios'
 
+const api = axios.create({
+  baseURL: 'http://localhost:3333/auth'
+})
 
 class Home extends Component{
   constructor(props){
     super(props)
     const token = window.localStorage.getItem('token')
     const socket = io('http://localhost:3333?token='+token)
+    api.get('/auth').then(res=>{
+      this.setState({ user: res.data})
+      
+  })
+    
  
     this.state={
       rooms: [],
-      msgs: {}
+      msgs: {},
+      user:[]
     }
 
     socket.on('newRoom', room => {
@@ -105,10 +115,12 @@ class Home extends Component{
   }
   
     render(){
+     console.log(this.state.user)
+    
         return (
             <div className="container w-container">
             <div className="rooms">
-              <h1 className="title-rooms">Salas Disponíveis </h1>
+              <h1 className="title-rooms">Salas Disponíveis</h1>
               <ul className="room-list w-list-unstyled">
               {this.state.rooms.map((room)=>{
                 return <li className="room-item" key={room._id}>
@@ -122,7 +134,7 @@ class Home extends Component{
             </div>
             <Route path='/chat' exact component={SelectRoom}/>
             <Route path="/chat/:room" render = {(props)=> <Room {...props} 
-                  socket= {this.socket} msgs={this.state.msgs}/>} />
+                  socket= {this.socket} msgs={this.state.msgs} author={this.state.msgs.author}/>} />
           </div>
         )
     }

@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 
+import Moment from 'react-moment'
 
 class Room extends Component{
     constructor(props){
@@ -85,11 +86,15 @@ class Room extends Component{
         }
     }
     renderMessage(msg){
-        return <div className="message" key={msg._id}><span className="author">{msg.author}-{msg.when} </span><br/><span className="msg-body">{this.renderContent(msg)}</span></div>
+        return <div className="message" key={msg._id}><span className="author"><Moment format="DD/MM/YYYY">{msg.when}</Moment><br/>{msg.author}-<Moment format="HH:MM">{msg.when}</Moment></span><br/><span className="msg-body">{this.renderContent(msg)}</span></div>
     }
+  
     render(){
         const room = this.props.match.params.room
         const msgs = this.props.msgs[room]
+        
+    
+        
         return(
             
             <div className="room">
@@ -100,12 +105,15 @@ class Room extends Component{
             }
             </div>
             <div className="new-message-form w-form">
+           
               <form className="form">
+              
                 <textarea id="field" name="field" maxLength="5000"
                  placeholder="Digite sua mensagem e pressione &lt;Enter&gt;"
                   autoFocus={true} className="msg w-input" onKeyUp={this.handleKey} ref={(ref)=> this.msg = ref}></textarea>
                 <button type="button" className="send-audio w-button" onMouseDown={this.mouseDown} onMouseUp={this.mouseUp}>Enviar<br/>Áudio</button>
               </form>
+              
             </div>
           </div>
           
@@ -114,3 +122,6 @@ class Room extends Component{
 }
 
 export default Room
+
+
+  
